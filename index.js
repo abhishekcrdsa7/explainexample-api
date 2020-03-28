@@ -6,6 +6,7 @@ const indexRoutes = require("./routes/index");
 const courseRoutes = require("./routes/course");
 const subjectRoutes = require("./routes/subject");
 const blogRoutes = require("./routes/blog");
+require("./cron");
 
 mongoose.connect(
     "mongodb+srv://exex:AbHiShEk@7@explainexample-jhzvz.mongodb.net/ExplainExampleDB?retryWrites=true&w=majority",
@@ -16,7 +17,6 @@ mongoose.connect(
 );
 
 app.use(cors());
-
 app.use(bodyParser.json());
 app.use("/course", courseRoutes);
 app.use("/course/:courseId/subject", subjectRoutes);
