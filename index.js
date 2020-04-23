@@ -7,6 +7,7 @@ const indexRoutes = require("./routes/index");
 const courseRoutes = require("./routes/course");
 const subjectRoutes = require("./routes/subject");
 const blogRoutes = require("./routes/blog");
+const subscribeRoutes = require("./routes/subscribe");
 dotenv.config();
 const user = process.env.user;
 const password = process.env.password;
@@ -20,6 +21,7 @@ mongoose.connect(
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use("/subscribe", subscribeRoutes);
 app.use("/course", courseRoutes);
 app.use("/course/:courseId/subject", subjectRoutes);
 app.use("/course/:courseId/subject/:subjectId/blog", blogRoutes);
