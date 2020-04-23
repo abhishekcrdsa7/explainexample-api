@@ -1,7 +1,30 @@
 const router = require("express").Router({mergeParams: true});
 const _ = require("lodash");
+const Fuse = require("fuse.js");
 const subject = require("../models/subject");
 const blog = require("../models/blog");
+
+
+router.get('/search', (req, res) => {
+    blog.find({publish: true})
+    .lean()
+    .populate('subject')
+    .exec((err, bs) => {
+        blogs = bs;
+        const options = {
+            keys: ['keywords'],
+            threshold: 0.5
+        };
+        const fuse = new Fuse(blogs, options);
+        result = fuse.search(req.query.s);
+        let r = {
+            "search result": result.map(i => {
+                return i.item;
+            })
+        };
+        res.send(r);
+    })
+});
 
 router.get('/subject', (req, res) => {
     subject.find({})
@@ -11,6 +34,15 @@ router.get('/subject', (req, res) => {
     })
     .then(subjects => {
         let obj = _.groupBy(subjects, `course.name`);
+        res.send(obj);
+    })
+});
+
+router.get('/blog', (req, res) => {
+    blog.find({publish: true})
+    .populate('subject')
+    .then(bs => {
+        let obj = _.groupBy(bs, 'subject.name');
         res.send(obj);
     })
 });

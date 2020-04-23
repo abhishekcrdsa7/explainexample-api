@@ -24,7 +24,9 @@ const blogSchema = new mongoose.Schema({
     subjectPermaLink: {type: String},
     coursePermaLink: {type: String},
     blogNumber: {type: Number},
-    description: {type: String}
+    description: {type: String},
+    posterPicture: {type: String},
+    publish: {type: Boolean, default: false}
 });
 
 module.exports = mongoose.model("blog", blogSchema);
