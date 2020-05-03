@@ -41,6 +41,7 @@ router.get('/subject', (req, res) => {
 router.get('/blog', (req, res) => {
     blog.find({publish: true})
     .populate('subject')
+    .select('-content')
     .then(bs => {
         let obj = _.groupBy(bs, 'subject.name');
         res.send(obj);
